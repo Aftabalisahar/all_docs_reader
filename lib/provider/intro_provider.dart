@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../services/file_provider_service.dart';
+
 class IntroProvider extends ChangeNotifier {
 
   int index = 0 ;
@@ -10,16 +12,18 @@ class IntroProvider extends ChangeNotifier {
      index = updatedIndex ;
      notifyListeners();
    }
-   Future<bool> requestPermission() async {
+   Future<bool> requestPermission(BuildContext context) async {
     PermissionStatus permissionStatus;
     String androidVersion = await getAndroidVersion();
     if (int.parse(androidVersion) <= 12) {
       permissionStatus = await Permission.storage.request();
     } else {
-      permissionStatus = await Permission.photos.request();
+      permissionStatus = await Permission.manageExternalStorage.request();
     }
 
     if (permissionStatus == PermissionStatus.granted) {
+      FileProviderService fileProviderService = FileProviderService();
+      fileProviderService.selectDirectory(context);
       // Permission granted
       return true;
     } else if (permissionStatus == PermissionStatus.permanentlyDenied) {

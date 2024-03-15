@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path/path.dart' as path;
 import 'package:document_viewer/document_viewer.dart';
 import 'package:external_path/external_path.dart';
@@ -53,13 +54,16 @@ class _DocsViewerScreenState extends State<DocsViewerScreen> {
     // print(pdfFlePath);
     return Scaffold(
         appBar: AppBar(centerTitle: true, title: Text(widget.fileName)),
-        body: FutureBuilder(
-          future: loadPdf(),
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? DocumentViewer(filePath: pdfFlePath)
-                : const Center(child: CircularProgressIndicator());
-          },
+        body: Padding(
+          padding: EdgeInsets.all(20.sp),
+          child: FutureBuilder(
+            future: loadPdf(),
+            builder: (context, snapshot) {
+              return snapshot.hasData
+                  ? DocumentViewer(filePath: pdfFlePath)
+                  : const Center(child: CircularProgressIndicator());
+            },
+          ),
         )
         // pdfFlePath == null
         //     ? const Center(

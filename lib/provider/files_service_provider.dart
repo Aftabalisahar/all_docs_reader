@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:all_docs_reader/provider/favorites_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FilesServiceProvider extends ChangeNotifier {
   List<String> pdfFiles = [];
+  List favFiles = [];
   List<String> docsFiles = [];
   List<String> pptFiles = [];
   List<String> txtFiles = [];
@@ -38,7 +41,6 @@ class FilesServiceProvider extends ChangeNotifier {
   getCurrentItemAt(int index, String type) {
     List files = getCurrentList(type);
     return files[index];
-
   }
 
   List<String> getCurrentList(String type) {
@@ -54,7 +56,9 @@ class FilesServiceProvider extends ChangeNotifier {
                         ? txtFiles
                         : type.contains("Excel Files")
                             ? excelFiles
-                            : epubFiles;
+                            : type.contains("Favorites")
+                                ? favFiles
+                                : epubFiles;
   }
 
   getAllFilesList() {
@@ -65,6 +69,7 @@ class FilesServiceProvider extends ChangeNotifier {
     allFiles.addAll(excelFiles);
     allFiles.addAll(epubFiles);
     allFiles.addAll(txtFiles);
+
     return allFiles;
   }
 
@@ -85,12 +90,16 @@ class FilesServiceProvider extends ChangeNotifier {
     final length = file.lengthSync();
     return "${calculateKBs(length)} , ${date.day}-${date.month}-${date.year} ";
   }
-  
-  calculateKBs(int size){
-    if(size > 1024){
+
+  calculateKBs(int size) {
+    if (size > 1024) {
       return "${(size / 1024).toStringAsFixed(2)}KB";
     }
-
   }
 
+  getAllFavorites(BuildContext context) async {
+    favFiles = await Provider.of<FavoritesProvider>(context, listen: false)
+        .getAllFavorites();
+    notifyListeners();
+  }
 }

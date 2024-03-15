@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:all_docs_reader/provider/favorites_provider.dart';
 import 'package:all_docs_reader/provider/files_service_provider.dart';
 import 'package:all_docs_reader/screens/files_list_screen/components/file_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,12 +24,23 @@ class FilesListScreen extends StatefulWidget {
 
 class _FilesListScreenState extends State<FilesListScreen> {
   @override
+  void initState() {
+    Timer(Duration(milliseconds: 100), () {
+      Provider.of<FilesServiceProvider>(context, listen: false).getAllFavorites(context);
+    });
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.back();
+            },
             icon: Icon(
               CupertinoIcons.back,
               color: AppColors.whiteColor,
@@ -63,14 +77,31 @@ class _FilesListScreenState extends State<FilesListScreen> {
                                     ? filesServiceProvider.txtFiles.length
                                     : widget.title.contains("Excel Files")
                                         ? filesServiceProvider.excelFiles.length
-                                        : filesServiceProvider.epubFiles.length,
+                                        : widget.title.contains("Favorites")
+                                            ? filesServiceProvider
+                                                .favFiles.length
+                                            : filesServiceProvider
+                                                .epubFiles.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return FileItem(
+                  return Consumer<FavoritesProvider>(
+                    builder: (context, favoritesProvider, child) => FileItem(
                       name:
                           filesServiceProvider.getFileName(widget.title, index),
                       type: filesServiceProvider.getPathEndsWith(
-                          widget.title, index), details: filesServiceProvider.getFileDetails(widget.title, index), filePath: filesServiceProvider.getCurrentItemAt(index, widget.title),);
+                          widget.title, index),
+                      details: filesServiceProvider.getFileDetails(
+                          widget.title, index),
+                      filePath: filesServiceProvider.getCurrentItemAt(
+                          index, widget.title),
+                      isFavorite: checkFavorite(
+                          filesServiceProvider.getCurrentItemAt(
+                              index, widget.title),
+                          favoritesProvider.favorites), onFavChanged: (){
+                      Provider.of<FilesServiceProvider>(context, listen: false).getAllFavorites(context);
+                    },
+                    ),
+                  );
                 },
               ),
             ),
@@ -78,5 +109,10 @@ class _FilesListScreenState extends State<FilesListScreen> {
         ],
       ),
     );
+  }
+
+  bool checkFavorite(String path, List paths) {
+    bool isFavorite = paths.contains(path);
+    return isFavorite;
   }
 }

@@ -23,7 +23,8 @@ class FileProviderService {
       if (int.parse(androidVersion) <= 12) {
         permissionStatus = await Permission.storage.request();
       } else {
-        permissionStatus = await Permission.photos.request();
+        // permissionStatus = await Permission.photos.request();
+        permissionStatus = await Permission.manageExternalStorage.request();
       }
     } else if (Platform.isIOS) {
       permissionStatus = await Permission.photos.request();
@@ -54,7 +55,7 @@ class FileProviderService {
       print('Android Version: $version');
       return version;
     } catch (e) {
-      print('Failed to get Android version: $e');
+      Fluttertoast.showToast(msg: 'Failed to get Android version: $e');
       return "";
     }
   }
@@ -73,25 +74,25 @@ class FileProviderService {
   Future<List<String>> listFilesByExtension(String extension) async {
     List<String> filesList = [];
     try {
-      // Get the directory where files might be located
       Directory dir = Directory("/storage/emulated/0/");
+      List<FileSystemEntity> paths = dir.listSync(recursive: false);
+      for (var file in paths) {
+        if(!file.path.contains("Android")){
+          Directory directory = Directory(file.path);
+          List<FileSystemEntity> files = directory.listSync(recursive: true);
+          for(var filePath in files){
 
-      // List all files in the directory
-      List<FileSystemEntity> files = dir.listSync(recursive: true);
-
-      // Filter files by extension
-      for (var file in files) {
-        if (file.path.toLowerCase().endsWith(extension)) {
-          filesList.add(file.path);
+            if (filePath.path.toLowerCase().endsWith(extension)) {
+              if(File(filePath.path).lengthSync() > 0){
+                filesList.add(filePath.path);
+              }
+            }
+          }
         }
       }
     } catch (e) {
-      print('Error while listing $extension files: $e');
+      // Fluttertoast.showToast(msg: 'Error while listing $extension files: $e');
     }
     return filesList;
   }
-  
-
-
-  
 }

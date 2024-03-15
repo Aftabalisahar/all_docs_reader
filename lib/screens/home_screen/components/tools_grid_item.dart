@@ -1,4 +1,5 @@
 import 'package:all_docs_reader/provider/files_service_provider.dart';
+import 'package:all_docs_reader/screens/camera_screen/camera_screen.dart';
 import 'package:all_docs_reader/screens/files_list_screen/files_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,21 +19,10 @@ class ToolsGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Get.to(() => FilesListScreen(
-        //     title: index == 0
-        //         ? "Scan Pdf"
-        //         : index == 1
-        //             ? "Scan Word"
-        //             : index == 2
-        //                 ? "Merge Pdf"
-        //                 : index == 3
-        //                     ? "Split Pdf"
-        //                     : index == 4
-        //                         ? "Compress Pdf"
-        //                         : ""));
+        Get.to(() => const CameraScreen());
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 30.w),
+        padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 30.w),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.r),
             border: Border.all(color: Colors.grey)),

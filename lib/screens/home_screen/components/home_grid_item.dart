@@ -34,7 +34,7 @@ class HomeGridItem extends StatelessWidget {
                                     : "EPUB Files"));
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 30.w),
+        padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 25.w),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.r),
             border: Border.all(color: Colors.grey)),

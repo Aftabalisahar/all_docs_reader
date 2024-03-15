@@ -17,11 +17,20 @@ class AppImages {
   static const String optionsIcon = "assets/images/dots.svg" ;
   static const String compressPdfIcon = "assets/images/compress_pdf.svg" ;
   static const String scanPdfIcon = "assets/images/pdf_scan.svg" ;
-  static const String scanWordIcon = "assets/images/scan_word.svg" ;
+  static const String scanWordIcon = "assets/images/word_scan.svg" ;
   static const String mergePdfIcon = "assets/images/merge_pdf.svg" ;
   static const String splitPdfIcon = "assets/images/split_pdf.svg" ;
   static const String shareIcon = "assets/images/share.svg" ;
   static const String privacyIcon = "assets/images/privacy.svg" ;
   static const String rateUsIcon = "assets/images/like.svg" ;
   static const String guideIcon = "assets/images/guide.svg" ;
+  static const String shareFileIcon = "assets/images/share_icon.svg" ;
+  static const String renameFileIcon = "assets/images/edit_icon.svg" ;
+  static const String infoFileIcon = "assets/images/info_icon.svg" ;
+  static const String readFileIcon = "assets/images/read_icon.svg" ;
+  static const String userExperienceIcon = "assets/images/user_experience.png" ;
+  static const String galleryIcon = "assets/images/gallery_icon.svg" ;
+  static const String resetRotationIcon = "assets/images/reset_rotation_icon.svg" ;
+  static const String rightRotationIcon = "assets/images/right_rotation_icon.svg" ;
+  static const String leftRotationIcon = "assets/images/left_rotation_icon.svg" ;
 }

@@ -52,7 +52,7 @@ class _IntroScreenState extends State<IntroScreen> {
                                 1,
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.linear)
-                        : goToNextScreen(await Provider.of<IntroProvider>(context, listen: false).requestPermission());
+                        : goToNextScreen(await Provider.of<IntroProvider>(context, listen: false).requestPermission(context));
                   },
                   icon: Icon(Icons.arrow_forward,
                       color: AppColors.whiteColor, size: 25.sp))
@@ -82,7 +82,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           onGetStarted: () async {
                             introProvider.index == 2 ? pageController.animateToPage(3,
                                 duration: const Duration(milliseconds: 500),
-                                curve: Curves.linear) : goToNextScreen(await introProvider.requestPermission());
+                                curve: Curves.linear) : goToNextScreen(await introProvider.requestPermission(context));
                           },
                           index: index)),
                 ),
